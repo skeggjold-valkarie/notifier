@@ -1,11 +1,9 @@
 package ru.test.notifier.storage.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import ru.test.notifier.storage.entity.UserEntity
 
+@Dao
 interface UserDao {
 
     @Query("SELECT * FROM users")

@@ -13,7 +13,7 @@ import ru.test.notifier.storage.entity.UserEntity
     entities = [
         EventEntity::class,
         EventTypeEntity::class,
-        UserEntity::class,
+        UserEntity::class
     ],
     version = 1
 )

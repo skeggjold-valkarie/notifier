@@ -1,6 +1,6 @@
 package ru.test.notifier.view.screens
 
-import android.app.Activity
+import androidx.fragment.app.Fragment
 
-class SettingsFragment: Activity() {
+class SettingsFragment: Fragment() {
 }

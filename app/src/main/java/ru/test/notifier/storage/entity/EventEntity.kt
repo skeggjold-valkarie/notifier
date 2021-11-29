@@ -4,9 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.util.*
+import java.sql.Date
 
-@Entity(
+
+@Entity
+    (
     tableName = "events",
     foreignKeys = [
         ForeignKey(
@@ -24,8 +26,8 @@ import java.util.*
     ]
 )
 data class EventEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey val id: Long,
     @ColumnInfo(name = "user_id") val userId: Long,
-    @ColumnInfo(name = "event_type_id") val eventTypeId: Long,
-    val date: Date
+    @ColumnInfo(name = "event_type_id") val eventTypeId: Long
+//    val date: Date?
 )

@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 )
 data class PresentEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    val title: String,
+    val title: String?,
     val sum: Double?
 )
