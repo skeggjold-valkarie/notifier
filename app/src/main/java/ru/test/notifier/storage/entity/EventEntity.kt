@@ -29,5 +29,5 @@ data class EventEntity(
     @PrimaryKey val id: Long,
     @ColumnInfo(name = "user_id") val userId: Long,
     @ColumnInfo(name = "event_type_id") val eventTypeId: Long
-//    val date: Date?
+//    val date: Long
 )
