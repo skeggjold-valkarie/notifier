@@ -1,4 +1,6 @@
 package ru.test.notifier.view.screens
 
-class EventsFragment {
+import androidx.fragment.app.Fragment
+
+class EventsFragment: Fragment() {
 }
