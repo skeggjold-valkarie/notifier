@@ -21,30 +21,51 @@ class InitialDatabaseCallBack: RoomDatabase.Callback() {
 
     private fun populateDatabase(db: SupportSQLiteDatabase){
 
-        db.execSQL(DROP_USER)
-        db.execSQL(CREATE_USER_TABLE)
-        val userValues = ContentValues()
-        userValues.put("first_name", "first")
-        userValues.put("middle_name", "middle")
-        userValues.put("last_name", "last")
-        db.insert("users", OnConflictStrategy.REPLACE, userValues)
+        db.execSQL(DROP_USERS)
+        db.execSQL(CREATE_USERS_TABLE)
+        val user1Values = ContentValues()
+        user1Values.put("first_name", "John")
+        user1Values.put("middle_name", "")
+        user1Values.put("last_name", "Smith")
+        db.insert("users", OnConflictStrategy.REPLACE, user1Values)
 
+        val user2Values = ContentValues()
+        user2Values.put("first_name", "Ivan")
+        user2Values.put("middle_name", "Ivanovich")
+        user2Values.put("last_name", "Ivanov")
+        db.insert("users", OnConflictStrategy.REPLACE, user2Values)
 
-//        //Clearing all the data from table
-//        wordDao.deleteAll()
-//
-//        //Adding record
-//        var word = Word("Hello")
-//        wordDao.insert(word)
-//
-//        //Adding record
-//        word = Word("World!")
-//        wordDao.insert(word)
+        db.execSQL(DROP_EVENTS)
+        db.execSQL(REMAKE_EVENTS_TABLE)
+        val event1Values = ContentValues()
+        event1Values.put("user_id", 2)
+        event1Values.put("event_type_id", 1)
+        event1Values.put("date", 1638374884618L)
+        db.insert("events", OnConflictStrategy.REPLACE, event1Values)
+
+        val event2Values = ContentValues()
+        event2Values.put("user_id", 1)
+        event2Values.put("event_type_id", 2)
+        event2Values.put("date", 1638374883618L)
+        db.insert("events", OnConflictStrategy.REPLACE, event2Values)
+
+        db.execSQL(DROP_EVENT_TYPES)
+        db.execSQL(REMAKE_EVENT_TYPES_TABLE)
+        val eventType1Values = ContentValues()
+        eventType1Values.put("title", "birth day")
+        eventType1Values.put("description", "I usually give money")
+        db.insert("event_types", OnConflictStrategy.REPLACE, eventType1Values)
+
+        val eventType2Values = ContentValues()
+        eventType2Values.put("title", "wedding")
+        eventType2Values.put("description", "")
+        db.insert("event_types", OnConflictStrategy.REPLACE, eventType2Values)
+
     }
 
     companion object{
-        private const val DROP_USER = "DROP TABLE users;"
-        private const val CREATE_USER_TABLE = """
+        private const val DROP_USERS = "DROP TABLE users;"
+        private const val CREATE_USERS_TABLE = """
             CREATE TABLE users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name TEXT,
@@ -55,8 +76,8 @@ class InitialDatabaseCallBack: RoomDatabase.Callback() {
             );
         """
 
-        const val REMAKE_EVENT_TABLE = """
-            DROP TABLE events;
+        private const val DROP_EVENTS = "DROP TABLE events;"
+        const val REMAKE_EVENTS_TABLE = """
             CREATE TABLE events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER,
@@ -65,8 +86,8 @@ class InitialDatabaseCallBack: RoomDatabase.Callback() {
             );
         """
 
-        const val REMAKE_EVENT_TYPE_TABLE = """
-            DROP TABLE event_types;
+        private const val DROP_EVENT_TYPES = "DROP TABLE event_types;"
+        const val REMAKE_EVENT_TYPES_TABLE = """
             CREATE TABLE event_types (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,

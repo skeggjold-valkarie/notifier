@@ -17,11 +17,12 @@ class StorageRepository{
             database = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .allowMainThreadQueries() // TODO: remove and call dao methods in async way
                 .fallbackToDestructiveMigration()
-                .fallbackToDestructiveMigrationOnDowngrade()
                 .addCallback(InitialDatabaseCallBack())
                 .build()
 
             println("databaseLog is db ${database.getUserDao().getAll()}")
+            println("databaseLog is db ${database.getEventTypeDao().getAll()}")
+            println("databaseLog is db ${database.getEventDao().getAll()}")
         }
 
     }
