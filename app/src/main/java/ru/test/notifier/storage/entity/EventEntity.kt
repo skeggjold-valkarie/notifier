@@ -25,7 +25,6 @@ import java.sql.Date
 data class EventEntity(
     @PrimaryKey val id: Long,
     @ColumnInfo(name = "user_id")
-//    @Relation(parentColumn = "id", entity = UserEntity::class, entityColumn = "user_id")
     val user: Long,
     @ColumnInfo(name = "event_type_id")
 //    @Relation(parentColumn = "id", entity = EventTypeEntity::class, entityColumn = "event_type_id")
