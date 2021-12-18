@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/edit_profile"
+            android:icon="@drawable/ic_menu_profile"
+            android:title="Профаил" />
+        <item
+            android:id="@+id/add_person"
+            android:icon="@drawable/ic_menu_add_person"
+            android:title="Добавить" />
+        <item
+            android:id="@+id/edit_person"
+            android:icon="@drawable/ic_menu_edit_person"
+            android:title="Редактировать данные" />
+        <item
+            android:id="@+id/add_event"
+            android:icon="@drawable/ic_menu_add_event"
+            android:title="Добавить событие" />
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/notification"
+                android:icon="@drawable/ic_menu_notification"
+                android:title="Уведомления" />
+            <item
+                android:id="@+id/animation"
+                android:icon="@drawable/ic_menu_animation"
+                android:title="Анимация" />
+        </menu>
+    </item>
+
+</menu>

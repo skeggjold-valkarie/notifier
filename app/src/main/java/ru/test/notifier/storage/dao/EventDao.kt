@@ -7,8 +7,9 @@ import ru.test.notifier.storage.entity.UserEntity
 @Dao
 interface EventDao {
 
+    @Transaction
     @Query("SELECT * FROM events")
-    fun getAll(): List<UserEntity>?
+    fun getAll(): List<EventEntity>?
 
     @Insert
     fun insert(event: EventEntity)

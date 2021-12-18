@@ -15,11 +15,13 @@ class StorageRepository{
         fun init(context: Context) {
             if (::database.isInitialized) return
             database = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .allowMainThreadQueries() // remove and call dao methods in async way
+                .allowMainThreadQueries() // TODO: remove and call dao methods in async way
                 .fallbackToDestructiveMigration()
                 .addCallback(InitialDatabaseCallBack())
                 .build()
 
+            println("databaseLog is db ${database.getUserDao().getAll()}")
+            println("databaseLog is db ${database.getEventTypeDao().getAll()}")
             println("databaseLog is db ${database.getEventDao().getAll()}")
         }
 
