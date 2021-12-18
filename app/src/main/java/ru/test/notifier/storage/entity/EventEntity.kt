@@ -1,6 +1,9 @@
 package ru.test.notifier.storage.entity
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import java.sql.Date
 
 
@@ -24,11 +27,7 @@ import java.sql.Date
 )
 data class EventEntity(
     @PrimaryKey val id: Long,
-    @ColumnInfo(name = "user_id")
-//    @Relation(parentColumn = "id", entity = UserEntity::class, entityColumn = "user_id")
-    val user: Long,
-    @ColumnInfo(name = "event_type_id")
-//    @Relation(parentColumn = "id", entity = EventTypeEntity::class, entityColumn = "event_type_id")
-    val eventType: Long,
-    val date: Long
+    @ColumnInfo(name = "user_id") val userId: Long,
+    @ColumnInfo(name = "event_type_id") val eventTypeId: Long
+//    val date: Date?
 )
