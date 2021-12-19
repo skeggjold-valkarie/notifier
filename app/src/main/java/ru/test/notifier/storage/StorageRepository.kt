@@ -5,12 +5,14 @@ import androidx.room.Room
 
 class StorageRepository{
 
-//    fun getAllUsers() = database.getUserDao().getAll()
+    fun getAllEvents() = database.getEventDao().getAll()
 
     companion object{
 
         private const val DATABASE_NAME = "notifier.db"
         private lateinit var database: AppDatabase
+
+        private val instance = StorageRepository()
 
         fun init(context: Context) {
             if (::database.isInitialized) return
@@ -24,6 +26,8 @@ class StorageRepository{
             println("databaseLog is db ${database.getEventTypeDao().getAll()}")
             println("databaseLog is db ${database.getEventDao().getAll()}")
         }
+
+        fun getInstance() = instance
 
     }
 }

@@ -7,14 +7,6 @@
             android:icon="@drawable/ic_menu_profile"
             android:title="Профаил" />
         <item
-            android:id="@+id/add_person"
-            android:icon="@drawable/ic_menu_add_person"
-            android:title="Добавить" />
-        <item
-            android:id="@+id/edit_person"
-            android:icon="@drawable/ic_menu_edit_person"
-            android:title="Редактировать данные" />
-        <item
             android:id="@+id/add_event"
             android:icon="@drawable/ic_menu_add_event"
             android:title="Добавить событие" />
