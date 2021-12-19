@@ -12,10 +12,9 @@ import ru.test.notifier.R
 
 class EventsAdapter(context: Context): RecyclerView.Adapter<ViewHolder>() {
 
-    private var items: MutableList<String> = mutableListOf("zz", "zz", "zz", "zz", "zz", "zz", "zz", "zz", "zz", "zz", "zz", "zz")
+    private var items: MutableList<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-//        val view = parent.context.inflate(R.layout.item_event, parent)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
         return ItemViewHolder(view)
     }
@@ -37,7 +36,7 @@ class EventsAdapter(context: Context): RecyclerView.Adapter<ViewHolder>() {
     }
 
     class ItemViewHolder(itemView: View) : ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById<View>(R.id.event_header) as TextView
+        val textView: TextView = itemView.findViewById(R.id.event_header)
     }
 
 }
