@@ -2,4 +2,6 @@
     <string name="app_name">Notifier</string>
     <string name="navigation_drawer_open">aaa</string>
     <string name="navigation_drawer_close">bbb</string>
+    <string name="event_dialog_message">сообщение</string>
+    <string name="add">добавить</string>
 </resources>
