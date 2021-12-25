@@ -4,8 +4,7 @@ import androidx.room.*
 import java.sql.Date
 
 
-@Entity
-    (
+@Entity(
     tableName = "events",
     foreignKeys = [
         ForeignKey(
@@ -23,11 +22,12 @@ import java.sql.Date
     ]
 )
 data class EventEntity(
-    @PrimaryKey val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "user_id")
     val user: Long,
     @ColumnInfo(name = "event_type_id")
-//    @Relation(parentColumn = "id", entity = EventTypeEntity::class, entityColumn = "event_type_id")
     val eventType: Long,
     val date: Long
-)
+){
+    constructor(user: Long, eventType: Long, date: Long): this(Long.MIN_VALUE, user, eventType, date)
+}

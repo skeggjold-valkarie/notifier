@@ -12,9 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.test.notifier.NotifierApplication
 import ru.test.notifier.navigation.Router
 import ru.test.notifier.presenter.MainPresenter
+import ru.test.notifier.view.dialogs.EventDialog
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +42,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (savedInstanceState == null) {
             router.showPage(this, Router.EVENTS_PAGE)
+        }
+
+        val eventButton: FloatingActionButton = view.findViewById(R.id.fab)
+        eventButton.setOnClickListener{
+            EventDialog().show(supportFragmentManager, EventDialog.TAG)
         }
     }
 

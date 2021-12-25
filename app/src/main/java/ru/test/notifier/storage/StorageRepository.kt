@@ -2,10 +2,22 @@ package ru.test.notifier.storage
 
 import android.content.Context
 import androidx.room.Room
+import ru.test.notifier.storage.entity.EventEntity
+import java.util.*
 
 class StorageRepository{
 
     fun getAllEvents() = database.getEventDao().getAll()
+
+    fun saveEvent(userId: Long?, typeId: Long?, date: Date){
+        if (userId == null || typeId == null) return
+        database.getEventDao().insert(
+           EventEntity(user = userId, eventType = typeId, date = date.time)
+        )
+    }
+
+    fun getAllUsers() = database.getUserDao().getAll()
+    fun getAllEventTypes() = database.getEventTypeDao().getAll()
 
     companion object{
 

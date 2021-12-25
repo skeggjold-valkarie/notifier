@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:minWidth="300dp"
+    android:minHeight="200dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_border"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_border"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <Spinner
+        android:id="@+id/event"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@id/end_border"
+        app:layout_constraintStart_toStartOf="@id/start_border"
+        app:layout_constraintBottom_toTopOf="@id/person"
+        />
+
+    <Spinner
+        android:id="@+id/person"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#009999"
+        app:layout_constraintEnd_toEndOf="@id/end_border"
+        app:layout_constraintStart_toStartOf="@id/start_border"
+        app:layout_constraintTop_toBottomOf="@+id/event"
+        />
+
+    <TextView
+        android:id="@+id/event_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="true"
+        app:layout_constraintEnd_toEndOf="@id/end_border"
+        app:layout_constraintStart_toStartOf="@id/start_border"
+        app:layout_constraintTop_toBottomOf="@+id/person"
+        />
+
+    <Button
+        android:id="@+id/negative"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="Отменить"
+        app:layout_constraintTop_toBottomOf="@id/event_date"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@id/positive"
+        app:layout_constraintStart_toStartOf="@id/start_border" />
+
+    <Button
+        android:id="@+id/positive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:text="Добавить"
+        app:layout_constraintTop_toBottomOf="@id/event_date"
+        app:layout_constraintEnd_toEndOf="@id/end_border"
+        app:layout_constraintStart_toEndOf="@id/negative" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
