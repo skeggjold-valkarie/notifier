@@ -30,8 +30,7 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="@id/end_border"
         app:layout_constraintStart_toStartOf="@id/start_border"
-        app:layout_constraintBottom_toTopOf="@id/person"
-        />
+        app:layout_constraintBottom_toTopOf="@id/person" />
 
     <Spinner
         android:id="@+id/person"
@@ -41,18 +40,16 @@
         android:backgroundTint="#009999"
         app:layout_constraintEnd_toEndOf="@id/end_border"
         app:layout_constraintStart_toStartOf="@id/start_border"
-        app:layout_constraintTop_toBottomOf="@+id/event"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/event" />
 
     <TextView
-        android:id="@+id/event_date"
+        android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:calendarViewShown="true"
         app:layout_constraintEnd_toEndOf="@id/end_border"
         app:layout_constraintStart_toStartOf="@id/start_border"
-        app:layout_constraintTop_toBottomOf="@+id/person"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/person" />
 
     <Button
         android:id="@+id/negative"
@@ -60,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
         android:text="Отменить"
-        app:layout_constraintTop_toBottomOf="@id/event_date"
+        app:layout_constraintTop_toBottomOf="@id/description"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintEnd_toStartOf="@id/positive"
         app:layout_constraintStart_toStartOf="@id/start_border" />
@@ -71,10 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:text="Добавить"
-        app:layout_constraintTop_toBottomOf="@id/event_date"
+        app:layout_constraintTop_toBottomOf="@id/description"
         app:layout_constraintEnd_toEndOf="@id/end_border"
         app:layout_constraintStart_toEndOf="@id/negative" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

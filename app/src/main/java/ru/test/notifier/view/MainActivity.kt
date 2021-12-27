@@ -41,13 +41,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
         if (savedInstanceState == null) {
-            router.showPage(this, Router.EVENTS_PAGE)
+            router.showPage(this, Router.MAIN_PAGE)
         }
 
-        val eventButton: FloatingActionButton = view.findViewById(R.id.fab)
-        eventButton.setOnClickListener{
-            EventDialog().show(supportFragmentManager, EventDialog.TAG)
-        }
     }
 
     override fun onBackPressed() {
@@ -62,9 +58,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         val page = when (item.itemId) {
-            R.id.edit_profile, R.id.add_event -> Router.EVENTS_PAGE
-            R.id.notification, R.id.animation -> Router.SETTINGS_PAGE
-            else -> Router.EVENTS_PAGE
+            R.id.menu_main -> Router.MAIN_PAGE
+            R.id.menu_profile -> Router.PROFILE_PAGE
+            R.id.menu_events -> Router.EVENTS_PAGE
+            R.id.menu_persons -> Router.PERSONS_PAGE
+            R.id.menu_notification, R.id.menu_animation -> Router.SETTINGS_PAGE
+            else -> Router.MAIN_PAGE
         }
         router.showPage(this, page)
 
