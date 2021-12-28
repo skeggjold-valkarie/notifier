@@ -3,6 +3,8 @@ package ru.test.notifier.storage
 import android.content.Context
 import androidx.room.Room
 import ru.test.notifier.storage.entity.EventEntity
+import ru.test.notifier.storage.entity.EventTypeEntity
+import ru.test.notifier.storage.entity.UserEntity
 import java.util.*
 
 class StorageRepository{
@@ -16,8 +18,24 @@ class StorageRepository{
         )
     }
 
-    fun getAllUsers() = database.getUserDao().getAll()
-    fun getAllEventTypes() = database.getEventTypeDao().getAll()
+    fun saveEventType(title: String, description: String?){
+        database.getEventTypeDao().insert(
+            EventTypeEntity(id = Long.MIN_VALUE, title = title, description = description ?: "")
+        )
+    }
+
+
+    fun savePerson(firstName: String, middleName: String, lastName: String, phone: String?, avatar: String?){
+        database.getUserDao().insert(
+            UserEntity(id = Long.MIN_VALUE, firstName = firstName, middleName = middleName,
+                lastName = lastName, phone = phone ?: "", avatar = avatar ?: ""
+            )
+        )
+    }
+
+
+    fun getAllUsers() = database.getUserDao().getAll() ?: emptyList()
+    fun getAllEventTypes() = database.getEventTypeDao().getAll() ?: emptyList()
 
     companion object{
 

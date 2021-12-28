@@ -19,9 +19,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import ru.test.notifier.model.ListObject
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import androidx.core.view.get
 
 
 class EventDialog : DialogFragment() {
@@ -39,7 +36,7 @@ class EventDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_new_event, container, false)
+        return inflater.inflate(R.layout.dialog_event, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +47,7 @@ class EventDialog : DialogFragment() {
         val closeButton = view.findViewById<Button>(R.id.negative)
         val addEventButton = view.findViewById<Button>(R.id.positive)
 
-        val eventDateText = view.findViewById<TextView>(R.id.event_date)
+        val eventDateText = view.findViewById<TextView>(R.id.description)
 
         val eventSpinner = view.findViewById<Spinner>(R.id.event)
         val personSpinner = view.findViewById<Spinner>(R.id.person)

@@ -12,16 +12,16 @@ import ru.test.notifier.R
 import ru.test.notifier.storage.StorageRepository
 import ru.test.notifier.view.adapters.EventsAdapter
 import ru.test.notifier.view.dialogs.EventDialog
-import ru.test.notifier.view.dialogs.EventTypeDialog
+import ru.test.notifier.view.dialogs.PersonDialog
 
-class EventsFragment: Fragment() {
+class PersonsFragment: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: EventsAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_events, container, false)
+        return inflater.inflate(R.layout.fragment_persons, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,12 +33,12 @@ class EventsFragment: Fragment() {
         recyclerView = view.findViewById(R.id.rv_events)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
-        adapter.setData(storage.getAllEventTypes().mapNotNull { it.title })
+        adapter.setData(storage.getAllUsers().mapNotNull{ it.firstName })
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         val eventButton: FloatingActionButton = view.findViewById(R.id.fab)
         eventButton.setOnClickListener{
-            EventTypeDialog().show(parentFragmentManager, EventTypeDialog.TAG)
+            PersonDialog().show(parentFragmentManager, PersonDialog.TAG)
         }
     }
 

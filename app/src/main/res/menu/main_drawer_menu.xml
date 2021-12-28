@@ -3,23 +3,31 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/edit_profile"
+            android:id="@+id/menu_profile"
             android:icon="@drawable/ic_menu_profile"
             android:title="Профаил" />
         <item
-            android:id="@+id/add_event"
-            android:icon="@drawable/ic_menu_add_event"
-            android:title="Добавить событие" />
+            android:id="@+id/menu_main"
+            android:icon="@drawable/ic_menu_events"
+            android:title="Главная" />
+        <item
+            android:id="@+id/menu_events"
+            android:icon="@drawable/ic_menu_events"
+            android:title="События" />
+        <item
+            android:id="@+id/menu_persons"
+            android:icon="@drawable/ic_menu_edit_person"
+            android:title="Люди" />
     </group>
 
     <item android:title="Settings">
         <menu>
             <item
-                android:id="@+id/notification"
+                android:id="@+id/menu_notification"
                 android:icon="@drawable/ic_menu_notification"
                 android:title="Уведомления" />
             <item
-                android:id="@+id/animation"
+                android:id="@+id/menu_animation"
                 android:icon="@drawable/ic_menu_animation"
                 android:title="Анимация" />
         </menu>
