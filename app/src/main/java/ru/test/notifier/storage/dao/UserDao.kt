@@ -12,7 +12,7 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE id = :id")
     fun getById(id: Long): UserEntity?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: UserEntity)
 
     @Update

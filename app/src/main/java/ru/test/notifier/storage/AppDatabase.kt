@@ -15,7 +15,7 @@ import ru.test.notifier.storage.entity.UserEntity
         EventTypeEntity::class,
         UserEntity::class
     ],
-    version = 2
+    version = 3
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun getUserDao(): UserDao

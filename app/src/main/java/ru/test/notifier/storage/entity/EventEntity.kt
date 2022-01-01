@@ -22,12 +22,12 @@ import java.sql.Date
     ]
 )
 data class EventEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey(autoGenerate = true) var id: Long,
     @ColumnInfo(name = "user_id")
     val user: Long,
     @ColumnInfo(name = "event_type_id")
     val eventType: Long,
     val date: Long
 ){
-    constructor(user: Long, eventType: Long, date: Long): this(Long.MIN_VALUE, user, eventType, date)
+    constructor(user: Long, eventType: Long, date: Long): this(0, user, eventType, date)
 }

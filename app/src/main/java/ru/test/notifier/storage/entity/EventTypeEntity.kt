@@ -10,6 +10,8 @@ import androidx.room.PrimaryKey
 )
 data class EventTypeEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    val title: String?,
+    val title: String,
     val description: String?
-)
+){
+    constructor(title: String, description: String?): this(0, title, description)
+}
