@@ -13,6 +13,8 @@ import androidx.fragment.app.DialogFragment
 import ru.test.notifier.R
 import ru.test.notifier.storage.StorageRepository
 import java.util.*
+import ru.test.notifier.view.screens.EventsFragment
+
 
 class EventTypeDialog : DialogFragment() {
 
@@ -46,6 +48,7 @@ class EventTypeDialog : DialogFragment() {
         closeButton.setOnClickListener{ dialog?.dismiss() }
         addEventButton.setOnClickListener{
             storage.saveEventType(titleTextView.text.toString(), descriptionTextView.text.toString())
+            parentFragmentManager.setFragmentResult(EventsFragment.EVENT_REQUEST_CODE, Bundle())
             dialog?.dismiss()
         }
     }

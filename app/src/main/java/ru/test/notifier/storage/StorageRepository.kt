@@ -20,14 +20,14 @@ class StorageRepository{
 
     fun saveEventType(title: String, description: String?){
         database.getEventTypeDao().insert(
-            EventTypeEntity(id = Long.MIN_VALUE, title = title, description = description ?: "")
+            EventTypeEntity(title = title, description = description ?: "")
         )
     }
 
 
     fun savePerson(firstName: String, middleName: String, lastName: String, phone: String?, avatar: String?){
         database.getUserDao().insert(
-            UserEntity(id = Long.MIN_VALUE, firstName = firstName, middleName = middleName,
+            UserEntity(id = 0, firstName = firstName, middleName = middleName,
                 lastName = lastName, phone = phone ?: "", avatar = avatar ?: ""
             )
         )
