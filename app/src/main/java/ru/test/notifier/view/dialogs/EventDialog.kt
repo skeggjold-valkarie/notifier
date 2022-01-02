@@ -20,7 +20,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import ru.test.notifier.model.ListObject
 import ru.test.notifier.view.screens.EventsFragment
-import ru.test.notifier.view.screens.MainFragment
 
 
 class EventDialog : DialogFragment() {
@@ -87,7 +86,7 @@ class EventDialog : DialogFragment() {
                 (personSpinner.selectedItem as? ListObject)?.id,
                 (eventSpinner.selectedItem as? ListObject)?.id,
                 calendar.time)
-            parentFragmentManager.setFragmentResult(MainFragment.MAIN_REQUEST_CODE, Bundle())
+            parentFragmentManager.setFragmentResult(EventsFragment.MAIN_REQUEST_CODE, Bundle())
             dialog?.dismiss()
         }
     }

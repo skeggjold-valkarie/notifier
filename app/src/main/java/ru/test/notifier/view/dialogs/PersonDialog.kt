@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ru.test.notifier.R
 import ru.test.notifier.storage.StorageRepository
-import ru.test.notifier.view.screens.MainFragment
 import ru.test.notifier.view.screens.PersonsFragment
 import java.util.*
 

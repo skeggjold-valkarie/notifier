@@ -9,9 +9,9 @@ class Router {
 
     fun showPage(activity: FragmentActivity, tag: String) {
         val fragment = when(tag){
-            MAIN_PAGE -> MainFragment()
+            MAIN_PAGE -> EventsFragment()
             PROFILE_PAGE -> ProfileFragment()
-            EVENTS_PAGE -> EventsFragment()
+            EVENTS_PAGE -> EventTypesFragment()
             PERSONS_PAGE -> PersonsFragment()
             SETTINGS_PAGE -> SettingsFragment()
             else -> return
