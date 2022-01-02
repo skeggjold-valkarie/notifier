@@ -10,18 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.test.notifier.R
+import ru.test.notifier.presenter.pages.EventsPresenter
+import ru.test.notifier.presenter.pages.PersonsPresenter
 import ru.test.notifier.storage.StorageRepository
 import ru.test.notifier.view.adapters.EventsAdapter
 import ru.test.notifier.view.dialogs.EventDialog
 import ru.test.notifier.view.dialogs.PersonDialog
 import ru.test.notifier.view.extensions.DialogListener
 
-class PersonsFragment: Fragment() {
+class PersonsFragment: Fragment(), PersonsPresenter.ContentView {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var storage: StorageRepository
-    private lateinit var adapter: EventsAdapter
-    private lateinit var listener: DialogListener
+    private var recyclerView: RecyclerView? = null
+    private var adapter: EventsAdapter? = null
+    private var presenter: PersonsPresenter? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,14 +33,14 @@ class PersonsFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.rv_events)
-        storage = StorageRepository.getInstance()
         adapter = EventsAdapter(view.context)
-        listener = createDialogListener()
+        val listener = createDialogListener()
+        presenter = PersonsPresenter(this)
 
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.adapter = adapter
         updateList()
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        recyclerView?.layoutManager = LinearLayoutManager(view.context)
 
         val eventButton: FloatingActionButton = view.findViewById(R.id.fab)
         eventButton.setOnClickListener{
@@ -55,9 +56,7 @@ class PersonsFragment: Fragment() {
         }
     }
 
-    private fun updateList(){
-        adapter.setData(storage.getAllUsers().mapNotNull{ it.firstName })
-    }
+    private fun updateList() = presenter?.let{ adapter?.setData(it.getData()) }
 
     companion object{
         const val PERSON_REQUEST_CODE = "person_request_code"

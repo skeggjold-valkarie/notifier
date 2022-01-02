@@ -19,37 +19,45 @@ import ru.test.notifier.presenter.MainPresenter
 import ru.test.notifier.view.dialogs.EventDialog
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(),
+    NavigationView.OnNavigationItemSelectedListener,
+    MainPresenter.ContentView
+{
 
+    private var presenter: MainPresenter? = null
     private var router: Router = NotifierApplication.getInstance().getRouter()
+
+    private var drawer: DrawerLayout? = null
+    private var navigationView: NavigationView? = null
+    private var toolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = layoutInflater.inflate(R.layout.activity_main, null, false)
-        MainPresenter(view)
-        setContentView(view)
+        setContentView(R.layout.activity_main)
 
-        val drawer = findViewById<View>(R.id.main_layout) as DrawerLayout
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        bindView()
+        presenter = MainPresenter(this)
+
         val toggle = ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this,
+            drawer,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
-        drawer.addDrawerListener(toggle)
+        drawer?.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView = findViewById<View>(R.id.navigation_view) as NavigationView
-        navigationView.setNavigationItemSelectedListener(this)
+        navigationView?.setNavigationItemSelectedListener(this)
 
         if (savedInstanceState == null) {
             router.showPage(this, Router.MAIN_PAGE)
         }
-
     }
 
     override fun onBackPressed() {
-        val drawer = findViewById<View>(R.id.main_layout) as DrawerLayout
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
+        if (drawer?.isDrawerOpen(GravityCompat.START) == true) {
+            drawer?.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -67,12 +75,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         router.showPage(this, page)
 
-        val drawer = findViewById<View>(R.id.main_layout) as DrawerLayout
-            drawer.closeDrawer(GravityCompat.START)
-            return true
+        drawer?.closeDrawer(GravityCompat.START)
+        return true
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
+
+    private fun bindView(){
+        drawer = findViewById(R.id.main_layout)
+        navigationView = findViewById(R.id.navigation_view)
+        toolbar = findViewById(R.id.toolbar)
+    }
+
 }

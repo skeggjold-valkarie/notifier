@@ -1,7 +1,9 @@
 package ru.test.notifier.presenter
 
-import android.view.View
+class MainPresenter(private val view: ContentView) {
 
-class MainPresenter(private val mainView: View) {
+    interface ContentView {
+
+    }
 
 }
