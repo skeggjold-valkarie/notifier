@@ -1,13 +1,11 @@
 package ru.test.notifier.view.screens
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,8 +13,9 @@ import com.google.android.material.snackbar.Snackbar
 import ru.test.notifier.R
 import ru.test.notifier.presenter.pages.EventsPresenter
 import ru.test.notifier.view.adapters.EventsAdapter
+import ru.test.notifier.view.adapters.ItemTouchHelper
 import ru.test.notifier.view.adapters.SwipeHelper
-import ru.test.notifier.view.adapters.SwipeListener
+import ru.test.notifier.view.adapters.ItemTouchListener
 import ru.test.notifier.view.dialogs.EventDialog
 import ru.test.notifier.view.extensions.DialogListener
 
@@ -58,13 +57,13 @@ class EventsFragment: Fragment(), EventsPresenter.ContentView {
         }
 
         recyclerView?.let{
-            val itemTouchHelper = ItemTouchHelper(SwipeHelper(it, object :SwipeListener{
+            val itemTouchHelper = ItemTouchHelper(object :ItemTouchListener{
                 override fun swipeLeft(position: Int) {
                     deletedItem = Pair(position, adapter?.removeAt(position))
                     adapter?.notifyItemRemoved(position)
                     undoAction()
                 }
-            }))
+            })
             itemTouchHelper.attachToRecyclerView(it)
         }
 

@@ -1,6 +1,6 @@
 package ru.test.notifier.view.adapters
 
-interface SwipeListener {
+interface ItemTouchListener {
 
     fun swipeLeft(position: Int)
 }

@@ -1,25 +1,14 @@
 package ru.test.notifier.view.adapters
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.*
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import ru.test.notifier.view.screens.EventsFragment
-import java.util.*
-import kotlin.math.abs
-import kotlin.math.max
 
 class SwipeHelper(
     private val recyclerView: RecyclerView,
-    private val listener: SwipeListener
+    private val listener: ItemTouchListener
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.ACTION_STATE_IDLE,
     ItemTouchHelper.LEFT
@@ -27,7 +16,12 @@ class SwipeHelper(
     private val swipeThresholdRatio = 0.5f
     private val swipeThreshold = 0f
 
+    init {
+//        recyclerView.itemAnimator = Slide
+    }
+
     override fun onMove(view: RecyclerView, holder: ViewHolder, target: ViewHolder): Boolean {
+        Log.e("testLog", "onMove ");
         return false
     }
 
@@ -49,7 +43,18 @@ class SwipeHelper(
     }
 
     override fun getSwipeThreshold(viewHolder: ViewHolder): Float {
-        return 0.7f
+        return 0.3f
+    }
+
+    override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
+        Log.e("testLog", "clearView");
+        super.clearView(recyclerView, viewHolder)
+    }
+
+    override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
+        super.onSelectedChanged(viewHolder, actionState)
+//        super.onSelectedChanged(viewHolder, ItemTouchHelper.ACTION_STATE_IDLE)
+        Log.e("testLog", "onSelectedChanged $actionState");
     }
 
     override fun onChildDraw(
@@ -81,7 +86,8 @@ class SwipeHelper(
 //            }
 ////            ItemTouchHelper.ANIMATION_TYPE_SWIPE_SUCCESS -> Log.e("testLog", "success")
 ////            ItemTouchHelper.ANIMATION_TYPE_SWIPE_CANCEL -> Log.e("testLog", "cancel")
-//            else -> Log.e("testLog", "else") //super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isActive)
+//            else -> Log.e("testLog", "else")
+//     super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isActive)
 //        }
     }
 
