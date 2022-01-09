@@ -1,4 +1,4 @@
-package ru.test.notifier.view.adapters
+package ru.test.notifier.ui.adapters
 
 import androidx.recyclerview.widget.DefaultItemAnimator
 

@@ -1,4 +1,4 @@
-package ru.test.notifier.view.adapters
+package ru.test.notifier.ui.adapters
 
 import android.animation.Animator
 import android.animation.ValueAnimator
@@ -7,10 +7,9 @@ import android.util.Log
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import androidx.core.view.GestureDetectorCompat
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
-import ru.test.notifier.view.extensions.AnimationVector
+import ru.test.notifier.ui.extensions.AnimationVector
 
 class ItemTouchHelper(
     private val listener: ItemTouchListener

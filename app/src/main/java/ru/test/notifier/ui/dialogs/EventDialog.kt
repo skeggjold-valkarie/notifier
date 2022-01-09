@@ -1,4 +1,4 @@
-package ru.test.notifier.view.dialogs
+package ru.test.notifier.ui.dialogs
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -19,7 +19,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import ru.test.notifier.model.ListObject
-import ru.test.notifier.view.screens.EventsFragment
+import ru.test.notifier.ui.screens.EventsFragment
 
 
 class EventDialog : DialogFragment() {

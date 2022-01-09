@@ -3,7 +3,7 @@ package ru.test.notifier.navigation
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import ru.test.notifier.R
-import ru.test.notifier.view.screens.*
+import ru.test.notifier.ui.screens.*
 
 class Router {
 

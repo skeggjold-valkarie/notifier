@@ -1,22 +1,21 @@
-package ru.test.notifier.view
+package ru.test.notifier.ui
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import ru.test.notifier.R
 import androidx.core.view.GravityCompat
-import android.view.View
 import android.widget.Toast
 
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.ItemTouchHelper
 import ru.test.notifier.NotifierApplication
 import ru.test.notifier.navigation.Router
 import ru.test.notifier.presenter.MainPresenter
-import ru.test.notifier.view.adapters.SwipeHelper
 
 
 class MainActivity : AppCompatActivity(),
