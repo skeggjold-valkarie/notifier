@@ -3,18 +3,18 @@ package ru.test.notifier.ui.extensions
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import java.io.Serializable
-import android.R.drawable
-import android.graphics.Bitmap.Config.ARGB_8888
-import android.graphics.Canvas
-
-import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.content.res.AppCompatResources
-import ru.test.notifier.R
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ru.test.notifier.ui.model.ContextButton
+import ru.test.notifier.ui.model.ContextButtonModel
+import java.io.Serializable
 
 
 typealias DialogListener = (String, Bundle) -> Unit
@@ -42,3 +42,17 @@ fun Context.toBitmap(@DrawableRes id: Int): Bitmap? {
         else -> null
     }
 }
+
+fun List<ContextButtonModel>.mapToButtons(viewHolder: ViewHolder): List<ContextButton> {
+    val view = viewHolder.itemView
+    var left = view.left
+    return map {
+        ContextButton(
+            code = it.code,
+            position = viewHolder.adapterPosition,
+            bounds = Rect(left, view.top, left + it.size, view.bottom)
+        ).also { button -> left += button.bounds.right }
+    }
+}
+
+fun Rect.hitTest(x: Int, y: Int) = x in left..right && y in top..bottom
