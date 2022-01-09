@@ -1,22 +1,21 @@
-package ru.test.notifier.view
+package ru.test.notifier.ui
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import ru.test.notifier.R
 import androidx.core.view.GravityCompat
-import android.view.View
 import android.widget.Toast
 
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.test.notifier.NotifierApplication
 import ru.test.notifier.navigation.Router
 import ru.test.notifier.presenter.MainPresenter
-import ru.test.notifier.view.dialogs.EventDialog
 
 
 class MainActivity : AppCompatActivity(),
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(),
         navigationView?.setNavigationItemSelectedListener(this)
 
         if (savedInstanceState == null) {
-            router.showPage(this, Router.MAIN_PAGE)
+            router.showPage(this, Router.EVENTS_PAGE)
         }
     }
 
@@ -66,12 +65,12 @@ class MainActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         val page = when (item.itemId) {
-            R.id.menu_main -> Router.MAIN_PAGE
+            R.id.menu_main -> Router.EVENTS_PAGE
             R.id.menu_profile -> Router.PROFILE_PAGE
-            R.id.menu_events -> Router.EVENTS_PAGE
             R.id.menu_persons -> Router.PERSONS_PAGE
+            R.id.menu_event_types -> Router.EVENT_TYPES_PAGE
             R.id.menu_notification, R.id.menu_animation -> Router.SETTINGS_PAGE
-            else -> Router.MAIN_PAGE
+            else -> Router.EVENTS_PAGE
         }
         router.showPage(this, page)
 

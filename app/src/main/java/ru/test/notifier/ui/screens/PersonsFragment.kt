@@ -1,4 +1,4 @@
-package ru.test.notifier.view.screens
+package ru.test.notifier.ui.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,23 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.test.notifier.R
-import ru.test.notifier.presenter.pages.EventTypesPresenter
-import ru.test.notifier.presenter.pages.EventsPresenter
 import ru.test.notifier.presenter.pages.PersonsPresenter
-import ru.test.notifier.storage.StorageRepository
-import ru.test.notifier.view.adapters.EventsAdapter
-import ru.test.notifier.view.dialogs.EventTypeDialog
-import ru.test.notifier.view.extensions.DialogListener
+import ru.test.notifier.ui.adapters.EventsAdapter
+import ru.test.notifier.ui.dialogs.PersonDialog
+import ru.test.notifier.ui.extensions.DialogListener
 
-class EventTypesFragment: Fragment(), EventTypesPresenter.ContentView {
+class PersonsFragment: Fragment(), PersonsPresenter.ContentView {
 
     private var recyclerView: RecyclerView? = null
     private var adapter: EventsAdapter? = null
-    private var presenter: EventTypesPresenter? = null
+    private var presenter: PersonsPresenter? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_events, container, false)
+        return inflater.inflate(R.layout.fragment_persons, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +32,7 @@ class EventTypesFragment: Fragment(), EventTypesPresenter.ContentView {
         recyclerView = view.findViewById(R.id.rv_events)
         adapter = EventsAdapter(view.context)
         val listener = createDialogListener()
-        presenter = EventTypesPresenter(this)
+        presenter = PersonsPresenter(this)
 
         recyclerView?.setHasFixedSize(true)
         recyclerView?.adapter = adapter
@@ -44,22 +41,22 @@ class EventTypesFragment: Fragment(), EventTypesPresenter.ContentView {
 
         val eventButton: FloatingActionButton = view.findViewById(R.id.fab)
         eventButton.setOnClickListener{
-            val dialog = EventTypeDialog()
-            dialog.show(parentFragmentManager, EventTypeDialog.TAG)
-            dialog.setFragmentResultListener(EVENT_REQUEST_CODE, listener)
+            val dialog = PersonDialog()
+            dialog.show(parentFragmentManager, PersonDialog.TAG)
+            dialog.setFragmentResultListener(PERSON_REQUEST_CODE, listener)
         }
     }
 
     private fun createDialogListener(): DialogListener = { key, _ ->
         when(key){
-            EVENT_REQUEST_CODE -> updateList()
+            PERSON_REQUEST_CODE -> updateList()
         }
     }
 
     private fun updateList() = presenter?.let{ adapter?.setData(it.getData()) }
 
     companion object{
-        const val EVENT_REQUEST_CODE = "event_request_code"
+        const val PERSON_REQUEST_CODE = "person_request_code"
     }
 
 }

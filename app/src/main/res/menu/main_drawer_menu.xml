@@ -11,7 +11,7 @@
             android:icon="@drawable/ic_menu_events"
             android:title="Главная" />
         <item
-            android:id="@+id/menu_events"
+            android:id="@+id/menu_event_types"
             android:icon="@drawable/ic_menu_events"
             android:title="События" />
         <item

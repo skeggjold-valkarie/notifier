@@ -1,4 +1,4 @@
-package ru.test.notifier.view.dialogs
+package ru.test.notifier.ui.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
@@ -12,11 +12,10 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ru.test.notifier.R
 import ru.test.notifier.storage.StorageRepository
+import ru.test.notifier.ui.screens.PersonsFragment
 import java.util.*
-import ru.test.notifier.view.screens.EventTypesFragment
 
-
-class EventTypeDialog : DialogFragment() {
+class PersonDialog : DialogFragment() {
 
     private val calendar: Calendar = Calendar.getInstance()
 
@@ -31,7 +30,7 @@ class EventTypeDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_event_type, container, false)
+        return inflater.inflate(R.layout.dialog_person, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,19 +41,29 @@ class EventTypeDialog : DialogFragment() {
         val closeButton = view.findViewById<Button>(R.id.negative)
         val addEventButton = view.findViewById<Button>(R.id.positive)
 
-        val titleTextView = view.findViewById<TextView>(R.id.title)
-        val descriptionTextView = view.findViewById<TextView>(R.id.description)
+        val firstNameTextView = view.findViewById<TextView>(R.id.first_name)
+        val middleNameTextView = view.findViewById<TextView>(R.id.middle_name)
+        val lastNameTextView = view.findViewById<TextView>(R.id.last_name)
+        val phoneTextView = view.findViewById<TextView>(R.id.phone)
+        val avatarTextView = view.findViewById<TextView>(R.id.avatar)
+
 
         closeButton.setOnClickListener{ dialog?.dismiss() }
         addEventButton.setOnClickListener{
-            storage.saveEventType(titleTextView.text.toString(), descriptionTextView.text.toString())
-            parentFragmentManager.setFragmentResult(EventTypesFragment.EVENT_REQUEST_CODE, Bundle())
+            storage.savePerson(
+                firstNameTextView.text.toString(),
+                middleNameTextView.text.toString(),
+                lastNameTextView.text.toString(),
+                phoneTextView.text.toString(),
+                avatarTextView.text.toString()
+            )
+            parentFragmentManager.setFragmentResult(PersonsFragment.PERSON_REQUEST_CODE, Bundle())
             dialog?.dismiss()
         }
     }
 
 
     companion object {
-        const val TAG = "EventTypeDialog"
+        const val TAG = "PersonDialog"
     }
 }
