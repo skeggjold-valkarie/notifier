@@ -19,8 +19,8 @@ import java.io.Serializable
 
 typealias DialogListener = (String, Bundle) -> Unit
 
-data class AnimationVector<T>(val startX: T, val startY: T, val endX: T, val endY: T):Serializable {
-    override fun toString(): String = "[($startX, $startY) -> ($endX, $endY)]"
+data class Box<T>(val left: T, val top: T, val right: T, val bottom: T):Serializable {
+    override fun toString(): String = "[($left, $top) - ($right, $bottom)]"
 }
 
 fun Resources.toBitmap(@DrawableRes id: Int): Bitmap = BitmapFactory.decodeResource(this, id)

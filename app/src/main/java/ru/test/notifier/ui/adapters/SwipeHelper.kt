@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ru.test.notifier.ui.extensions.Box
 import ru.test.notifier.ui.extensions.hitTest
 import ru.test.notifier.ui.extensions.mapToButtons
 import ru.test.notifier.ui.model.ContextButton
@@ -100,22 +101,20 @@ class SwipeHelper(
         }.also { multiplayer = it }
 
     private fun drawButtons(c: Canvas, view: View, position: Int, translationX: Float){
-        paint.color = Color.BLACK
-        c.drawRect(Rect(view.left, view.top, view.width, view.bottom), paint)
-//        float right = itemView.getRight();
-//        float dButtonWidth = 200;
-////        if (zzz){
-//            zzz = false;
-//            p.setColor(Color.parseColor("#FF0055"));
-//
-//            for (MyButton button : buffer){
-//                float left = right - dButtonWidth;
-//                button.onDraw(c, new RectF(left, itemView.getTop(), right, itemView.getBottom()), pos);
-//                right = left;
-//            }
+        paint.color = Color.parseColor("#EECC55")
+        val space = Box(view.left, view.top, view.width, view.bottom)
+        c.drawRect(space, paint)
+
+        val left = view.left
+        val right = view.right
+        buttons[position]?.forEach {
+            drawButton( Rect(space.left, view.top, right - it.bounds, view.bottom) ).also { button ->
+                it
+            }
+        }
     }
 
-    private fun drawButton(){
+    private fun drawButton(rect: Rect){
         //        fun onDraw(c: Canvas, rectF: RectF, pos: Int) {
 //            val p = Paint()
 //            //            p.setColor(color);
