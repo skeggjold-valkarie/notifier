@@ -23,9 +23,6 @@ data class Box<T>(val left: T, val top: T, val right: T, val bottom: T):Serializ
     override fun toString(): String = "[($left, $top) - ($right, $bottom)]"
 }
 
-fun Resources.toBitmap(@DrawableRes id: Int): Bitmap = BitmapFactory.decodeResource(this, id)
-
-
 fun Context.toBitmap(@DrawableRes id: Int): Bitmap? {
     val drawable = AppCompatResources.getDrawable(this, id)
     val width = drawable?.intrinsicWidth ?: 0
@@ -45,13 +42,15 @@ fun Context.toBitmap(@DrawableRes id: Int): Bitmap? {
 
 fun List<ContextButtonModel>.mapToButtons(viewHolder: ViewHolder): List<ContextButton> {
     val view = viewHolder.itemView
-    var left = view.left
-    return map {
+    var right = view.right
+    return asReversed().map {
         ContextButton(
             code = it.code,
+            label = it.label,
             position = viewHolder.adapterPosition,
-            bounds = Rect(left, view.top, left + it.size, view.bottom)
-        ).also { button -> left += button.bounds.right }
+            res = it.res,
+            bounds = Rect(right - it.size, view.top, right, view.bottom)
+        ).also { button -> right -= button.bounds.width() }
     }
 }
 

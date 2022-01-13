@@ -20,7 +20,7 @@ class BitmapCache {
     private fun freeSpace(space: Int) {
         if (space > MAX_CACHE_SIZE) throw IllegalArgumentException(HUGE_SIZE_EXCEPTION)
 
-        while (space + currentSize > MAX_CACHE_SIZE || queue.isEmpty()) {
+        while (space + currentSize > MAX_CACHE_SIZE && queue.isNotEmpty()) {
             queue.poll()?.also { map.remove(it); countSize() }
         }
     }
