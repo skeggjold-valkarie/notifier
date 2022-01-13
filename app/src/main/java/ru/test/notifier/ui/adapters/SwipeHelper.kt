@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ru.test.notifier.NotifierApplication
 import ru.test.notifier.ui.extensions.hitTest
 import ru.test.notifier.ui.extensions.mapToButtons
 import ru.test.notifier.ui.model.ContextButton
 import ru.test.notifier.ui.model.ContextButtonModel
-import java.util.*
 
 @SuppressLint("ClickableViewAccessibility")
 class SwipeHelper(
@@ -30,7 +30,6 @@ class SwipeHelper(
     ItemTouchHelper.LEFT
 ) {
 
-    private var swipePosition = -1
     private val gestureListener = object : SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             val button = buttons[selected]?.find { it.bounds.hitTest(e.x.toInt(), e.y.toInt()) }
@@ -40,58 +39,57 @@ class SwipeHelper(
     }
     private val gestureDetector = GestureDetector(context, gestureListener)
     private val onTouchListener = OnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
-    private val removeQueue: Queue<Int>? = null
     private var buttons = mutableMapOf<Int, List<ContextButton>>()
 
-    private var selected = -1
+    private var bitmapCache = NotifierApplication.getInstance().getBitmapCache()
+
+    private var selected = NO_ONE_SELECTED
 
     private val paint = Paint()
     private var multiplayer = DEFAULT_MULTIPLIER
 
+    private val swipedSet = mutableSetOf<Int>()
+
     init {
         recyclerView.setOnTouchListener(onTouchListener)
-        Log.e("testLog", "new ${recyclerView.measuredWidth}")
     }
 
-    override fun onMove(view: RecyclerView, holder: ViewHolder, target: ViewHolder): Boolean {
-        Log.e("testLog", "onMove ")
-        return false
-    }
+    override fun onMove(view: RecyclerView, holder: ViewHolder, target: ViewHolder): Boolean = false
 
     override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-        Log.e("testLog", "direction $direction ")
-        selected = -1
+        Log.e("testLog", "onSwiped")
+        swipedSet.add(viewHolder.adapterPosition)
     }
 
     override fun getSwipeThreshold(viewHolder: ViewHolder): Float {
         return getThreshold(viewHolder.itemView)
     }
 
-    override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
-        Log.e("testLog", "clearView");
-        super.clearView(recyclerView, viewHolder)
-    }
-
     override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
-        Log.e("testLog", "onSelectedChanged $actionState");
         viewHolder?.let{
             val list = buttonModels.mapToButtons(it)
             buttons[it.adapterPosition] ?: buttons.set(it.adapterPosition, list)
         }
+        if (actionState == ACTION_STATE_SWIPE){
+            swipedSet.forEach { index ->
+                recyclerView.adapter?.notifyItemChanged(index)
+            }
+            swipedSet.clear()
+        }
     }
 
-    override fun onChildDraw(c: Canvas, rv: RecyclerView, viewHolder: ViewHolder,
+    override fun onChildDraw(canvas: Canvas, rv: RecyclerView, viewHolder: ViewHolder,
                              dX: Float, dY: Float, actionState: Int, isActive: Boolean) {
-
+        Log.e("testLog", "onChildDraw")
+        val itemView = viewHolder.itemView
         selected = viewHolder.adapterPosition
 
-        val itemView = viewHolder.itemView
         val translationX = dX.takeIf { actionState != ACTION_STATE_SWIPE } ?: kotlin.run {
             dX / getThreshold(itemView)
-        }.also { drawButtons(c, itemView, selected, it) }
+        }.also { drawButtons(canvas, itemView, selected) }
 
-        super.onChildDraw(c, recyclerView, viewHolder, translationX, dY, actionState, isActive)
+       super.onChildDraw(canvas, recyclerView, viewHolder, translationX, dY, actionState, isActive)
     }
 
     private fun getThreshold(view: View): Float =
@@ -99,79 +97,46 @@ class SwipeHelper(
             view.width / buttonModels.sumOf { it.size }.toFloat()
         }.also { multiplayer = it }
 
-    private fun drawButtons(c: Canvas, view: View, position: Int, translationX: Float){
-        paint.color = Color.BLACK
-        c.drawRect(Rect(view.left, view.top, view.width, view.bottom), paint)
-//        float right = itemView.getRight();
-//        float dButtonWidth = 200;
-////        if (zzz){
-//            zzz = false;
-//            p.setColor(Color.parseColor("#FF0055"));
-//
-//            for (MyButton button : buffer){
-//                float left = right - dButtonWidth;
-//                button.onDraw(c, new RectF(left, itemView.getTop(), right, itemView.getBottom()), pos);
-//                right = left;
-//            }
+    private fun drawButtons(canvas: Canvas, view: View, position: Int){
+        paint.color = Color.parseColor("#EECC55")
+        val space = Rect(view.left, view.top, view.width, view.bottom)
+        canvas.drawRect(space, paint)
+
+        buttons[position]?.forEach { drawButton(canvas, it) }
     }
 
-    private fun drawButton(){
-        //        fun onDraw(c: Canvas, rectF: RectF, pos: Int) {
-//            val p = Paint()
-//            //            p.setColor(color);
-////            c.drawRect(rectF, p);
-//            p.textSize = textSize.toFloat()
-//            val r = Rect()
-//            val cHeight = rectF.height()
-//            val cWidth = rectF.width()
-//            //            p.setFlags(Paint.ANTI_ALIAS_FLAG);
-//            p.isAntiAlias = true
-//            p.getTextBounds(text, 0, text.length, r)
-//            val x = 0f
-//            val y = 0f
-//            val tx = (rectF.width() - r.width()) / 2
-//            var ty: Float = (rectF.height() + textSize) / 2
-//            Log.e(
-//                "zzzzzz",
-//                rectF.width()
-//                    .toString() + " | " + rectF.height() + " | " + r.width() + " | " + r.height()
-//            )
-//            var bitmap: Bitmap? = null
-//            if (imageResId != 0) {
-//                val d = ContextCompat.getDrawable(context, imageResId)
-//                bitmap = drawableToBitmap(d)
-//                Log.e(
-//                    "zzzzzz",
-//                    bitmap!!.width.toString() + " | " + bitmap.height + " | " + rectF.width() + " | " + rectF.height()
-//                )
-//                c.drawBitmap(
-//                    bitmap,
-//                    rectF.left + (rectF.width() - bitmap.width) / 2,
-//                    rectF.top + (rectF.height() - bitmap.height - textSize) / 2,
-//                    p
-//                )
-//            }
-//            if (bitmap != null) {
-//                ty += textSize.toFloat()
-//            }
-//
-////            p.setColor(Color.BLACK);
-////            c.drawRect(new RectF(rectF.left + tx, rectF.top + ty - r.height(), rectF.left + tx + r.width(), rectF.top + ty), p);
-//
-//            //Text
-//            p.color = Color.WHITE
-//
-//            //If just show Text
-//            c.drawText(text, rectF.left + tx, rectF.top + ty, p)
-//            Log.e("zzzzzz", rectF.left.toString() + " | " + rectF.top)
-//            clickRegion = rectF
-//            pos = pos
-//        }
-//    }
+    private fun drawButton(canvas: Canvas, button: ContextButton){
+        var textY = button.bounds.height()/2 - DEFAULT_TEXT_SIZE
+        bitmapCache[button.res]?.let { bitmap ->
+            canvas.drawBitmap(
+                bitmap,
+                button.bounds.left + (button.bounds.width() - bitmap.width.toFloat()) / 2,
+                button.bounds.top + (button.bounds.height() - bitmap.height - DEFAULT_TEXT_SIZE) / 2,
+                paint
+            )
+            textY += bitmap.height
+        }
+
+        val label = Rect()
+        paint.textSize = DEFAULT_TEXT_SIZE
+        paint.isAntiAlias = true
+        paint.getTextBounds(button.label, 0, button.label.length, label)
+        paint.color = Color.WHITE
+
+        canvas.drawText(
+            button.label,
+            button.bounds.left + (button.bounds.width() - label.width().toFloat()) / 2,
+            button.bounds.top + textY,
+            paint
+        )
     }
 
     companion object {
         const val DEFAULT_MULTIPLIER = 0.5F
+        const val FLING_MULTIPLIER = 1F
+        const val DEFAULT_TEXT_SIZE = 30F
+
+        const val NO_ONE_SELECTED = -1
     }
 
 }
