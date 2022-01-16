@@ -1,4 +1,4 @@
-package ru.test.notifier.storage
+package ru.test.notifier.data.db
 
 import android.content.ContentValues
 import androidx.room.OnConflictStrategy

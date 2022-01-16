@@ -1,8 +1,10 @@
-package ru.test.notifier.storage.entity
+package ru.test.notifier.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import ru.test.notifier.domain.model.EventTypeModel
+import ru.test.notifier.domain.model.PresentModel
 
 @Entity(
     tableName = "event_types",
@@ -13,5 +15,5 @@ data class EventTypeEntity(
     val title: String,
     val description: String?
 ){
-    constructor(title: String, description: String?): this(0, title, description)
+    fun mapToModel() = EventTypeModel(id, title, description)
 }

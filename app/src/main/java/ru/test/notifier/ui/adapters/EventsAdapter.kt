@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ru.test.notifier.R
 
-class EventsAdapter(context: Context): RecyclerView.Adapter<ViewHolder>() {
+class EventsAdapter<T>: RecyclerView.Adapter<ViewHolder>() {
 
-    private var items: MutableList<String> = mutableListOf()
+    private var items: MutableList<T> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
@@ -21,7 +21,7 @@ class EventsAdapter(context: Context): RecyclerView.Adapter<ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        (holder as? ItemViewHolder)?.textView?.text = items[position]
+        (holder as? ItemViewHolder)?.textView?.text = "text"//items[position]
     }
 
     override fun getItemCount(): Int {
@@ -30,12 +30,18 @@ class EventsAdapter(context: Context): RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int = 0
 
-    fun add(position: Int, item: String) = items.add(position, item)
+    fun add(position: Int, item: T) = items.add(position, item).also {
+        notifyItemInserted(position)
+    }
 
-    fun removeAt(position: Int): String = items.removeAt(position)
+    fun removeAt(position: Int): T = items.removeAt(position).also {
+        notifyItemRemoved(position)
+    }
+
+    fun get(position: Int): T = items[position]
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(items: List<String>){
+    fun setData(items: List<T>){
         this.items = items.toMutableList()
         notifyDataSetChanged()
     }

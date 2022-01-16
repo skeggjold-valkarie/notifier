@@ -1,33 +1,29 @@
-package ru.test.notifier.storage.entity
+package ru.test.notifier.data.db.entity
 
 import androidx.room.*
-import java.sql.Date
+import ru.test.notifier.domain.model.EventModel
 
 
 @Entity(
     tableName = "events",
     foreignKeys = [
         ForeignKey(
-            entity = UserEntity::class,
+            entity = PersonEntity::class,
             parentColumns = ["id"],
             childColumns = ["user_id"],
-            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = EventTypeEntity::class,
             parentColumns = ["id"],
             childColumns = ["event_type_id"],
-            onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class EventEntity(
     @PrimaryKey(autoGenerate = true) var id: Long,
-    @ColumnInfo(name = "user_id")
-    val user: Long,
-    @ColumnInfo(name = "event_type_id")
-    val eventType: Long,
+    @ColumnInfo(name = "user_id") val personId: Long,
+    @ColumnInfo(name = "event_type_id") val eventTypeId: Long,
     val date: Long
 ){
-    constructor(user: Long, eventType: Long, date: Long): this(0, user, eventType, date)
+    fun mapToModel() = EventModel(id, personId, eventTypeId, date)
 }
