@@ -12,6 +12,7 @@ import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ru.test.notifier.domain.model.EventModel
 import ru.test.notifier.ui.model.ContextButton
 import ru.test.notifier.ui.model.ContextButtonModel
 import java.io.Serializable

@@ -11,25 +11,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import ru.test.notifier.NotifierApplication
 import ru.test.notifier.R
+import ru.test.notifier.domain.model.EventModel
+import ru.test.notifier.domain.model.PersonEventModel
 import ru.test.notifier.presenter.pages.EventsPresenter
 import ru.test.notifier.ui.adapters.EventsAdapter
-import ru.test.notifier.ui.adapters.SwipeHelper
 import ru.test.notifier.ui.adapters.ItemTouchListener
+import ru.test.notifier.ui.adapters.SwipeHelper
 import ru.test.notifier.ui.dialogs.EventDialog
 import ru.test.notifier.ui.extensions.DialogListener
-import ru.test.notifier.ui.extensions.toBitmap
 import ru.test.notifier.ui.model.ContextButtonModel
 
 class EventsFragment: Fragment(), EventsPresenter.ContentView {
 
     private var recyclerView: RecyclerView? = null
-    private var adapter: EventsAdapter? = null
+    private var adapter: EventsAdapter<PersonEventModel>? = null
     private var listener: DialogListener? = null
     private var presenter: EventsPresenter? = null
-
-    private var deletedItem: Pair<Int, String?>? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,24 +38,18 @@ class EventsFragment: Fragment(), EventsPresenter.ContentView {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.rv_events)
-        adapter = EventsAdapter(view.context)
+        adapter = EventsAdapter()
         listener = createDialogListener()
         presenter = EventsPresenter(this)
 
         recyclerView?.setHasFixedSize(true)
         recyclerView?.adapter = adapter
 
-        updateList()
+        adapter?.setData(presenter?.getData() ?: emptyList())
         recyclerView?.layoutManager = LinearLayoutManager(view.context)
 
         val eventButton: FloatingActionButton = view.findViewById(R.id.fab)
-        eventButton.setOnClickListener{
-            listener?.let {
-                val dialog = EventDialog()
-                dialog.show(parentFragmentManager, EventDialog.TAG)
-                dialog.setFragmentResultListener(MAIN_REQUEST_CODE, it)
-            }
-        }
+        eventButton.setOnClickListener{ showDialog() }
         recyclerView?.let{
             val itemTouchHelper = ItemTouchHelper(SwipeHelper(
                 view.context,
@@ -77,8 +69,8 @@ class EventsFragment: Fragment(), EventsPresenter.ContentView {
                     ),
                 ),
                 object :ItemTouchListener {
-                    override fun onAction(position: Int, action: String) {
-                        when (action) {
+                    override fun onAction(position: Int, code: String) {
+                        when (code) {
                             EDIT_BUTTON_CODE -> editItem(position)
                             DELETE_BUTTON_CODE -> deleteItem(position)
                         }
@@ -90,39 +82,59 @@ class EventsFragment: Fragment(), EventsPresenter.ContentView {
 
     }
 
-    private fun createDialogListener(): DialogListener = { key, _ ->
-        when(key){
-            MAIN_REQUEST_CODE -> updateList()
+    override fun showError(message: String){
+        recyclerView?.let { view ->
+            Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
-    private fun updateList() = presenter?.let{ adapter?.setData(it.getData()) }
+    override fun restoreItem(position: Int, model: PersonEventModel) { adapter?.add(position, model) }
+
+    private fun createDialogListener(): DialogListener = { key, bundle ->
+        when(key){
+            MAIN_STORE_EVENT_CODE -> storeEvent(bundle)
+        }
+    }
+
+    private fun storeEvent(bundle: Bundle) {
+        val eventModel = bundle.getParcelable<EventModel>(EVENT_MODEL)
+        presenter?.storeEvent(eventModel)
+    }
 
     private fun undoAction(){
         recyclerView?.let { view ->
-            deletedItem?.let { item ->
-                Snackbar.make(view, "$item is deleted", Snackbar.LENGTH_LONG)
-                    .setAction("Undo"){
-                        adapter?.add(item.first, item.second ?: "")
-                        adapter?.notifyItemInserted(item.first)
-                        deletedItem = null
-                    }.show()
+            Snackbar.make(view, resources.getString(R.string.undo), Snackbar.LENGTH_LONG)
+                .setAction(resources.getString(R.string.undo)){ presenter?.restoreDeleted() }
+                .show()
+        }
+    }
+
+    // TODO: update method
+    private fun editItem(position: Int){
+        showDialog()
+    }
+
+    private fun deleteItem(position: Int){
+        presenter?.let{
+            adapter?.removeAt(position)?.let{ model ->
+                adapter?.removeAt(position)
+                it.deleteEvent(position, model)
+                undoAction()
             }
         }
     }
 
-    private fun editItem(position: Int){
-        // TODO: make edit button
-    }
-
-    private fun deleteItem(position: Int){
-        deletedItem = Pair(position, adapter?.removeAt(position))
-        adapter?.notifyItemRemoved(position)
-        undoAction()
+    private fun showDialog(){
+        listener?.let {
+            val dialog = EventDialog()
+            dialog.show(parentFragmentManager, EventDialog.TAG)
+            dialog.setFragmentResultListener(MAIN_STORE_EVENT_CODE, it)
+        }
     }
 
     companion object{
-        const val MAIN_REQUEST_CODE = "main_request_code"
+        const val MAIN_STORE_EVENT_CODE = "main_store_event_request_code"
+        const val EVENT_MODEL = "EventModel"
 
         const val EDIT_BUTTON_CODE = "edit_button_code"
         const val DELETE_BUTTON_CODE = "delete_button_code"

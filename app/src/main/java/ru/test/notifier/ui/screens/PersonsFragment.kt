@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.test.notifier.R
+import ru.test.notifier.domain.model.PersonModel
 import ru.test.notifier.presenter.pages.PersonsPresenter
 import ru.test.notifier.ui.adapters.EventsAdapter
 import ru.test.notifier.ui.dialogs.PersonDialog
@@ -18,7 +19,7 @@ import ru.test.notifier.ui.extensions.DialogListener
 class PersonsFragment: Fragment(), PersonsPresenter.ContentView {
 
     private var recyclerView: RecyclerView? = null
-    private var adapter: EventsAdapter? = null
+    private var adapter: EventsAdapter<PersonModel>? = null
     private var presenter: PersonsPresenter? = null
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -30,7 +31,7 @@ class PersonsFragment: Fragment(), PersonsPresenter.ContentView {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.rv_events)
-        adapter = EventsAdapter(view.context)
+        adapter = EventsAdapter()
         val listener = createDialogListener()
         presenter = PersonsPresenter(this)
 
@@ -53,7 +54,8 @@ class PersonsFragment: Fragment(), PersonsPresenter.ContentView {
         }
     }
 
-    private fun updateList() = presenter?.let{ adapter?.setData(it.getData()) }
+    // TODO: repair function
+    private fun updateList(){} // = presenter?.let{ adapter?.setData(it.getData()) }
 
     companion object{
         const val PERSON_REQUEST_CODE = "person_request_code"

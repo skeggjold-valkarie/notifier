@@ -1,8 +1,7 @@
-package ru.test.notifier.storage.dao
+package ru.test.notifier.data.db.dao
 
 import androidx.room.*
-import ru.test.notifier.storage.entity.EventTypeEntity
-import ru.test.notifier.storage.entity.UserEntity
+import ru.test.notifier.data.db.entity.EventTypeEntity
 
 @Dao
 interface EventTypeDao {
@@ -10,7 +9,7 @@ interface EventTypeDao {
     @Query("SELECT * FROM event_types")
     fun getAll(): List<EventTypeEntity>?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(eventType: EventTypeEntity)
 
     @Update

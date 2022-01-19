@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Base strings  -->
+    <string name="event_dialog_message">Сообщения</string>
+    <string name="add">Добавить</string>
+
+    <!-- Error messages -->
+    <string name="not_correct_data">Некорректные данные</string>
+    <string name="data_missing">Отвутствуют данные</string>
+    <string name="no_element_in_database">В базе данных нет элемента который должен быть удален</string>
+    <string name="item_is_deleted">Элемент удален</string>
+    <string name="undo">Отменить</string>
+
+</resources>

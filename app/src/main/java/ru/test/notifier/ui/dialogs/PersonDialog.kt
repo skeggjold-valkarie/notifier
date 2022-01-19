@@ -11,8 +11,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ru.test.notifier.R
-import ru.test.notifier.storage.StorageRepository
-import ru.test.notifier.ui.screens.PersonsFragment
+import ru.test.notifier.domain.model.PersonModel
+import ru.test.notifier.ui.screens.PersonsFragment.Companion.PERSON_REQUEST_CODE
 import java.util.*
 
 class PersonDialog : DialogFragment() {
@@ -36,8 +36,6 @@ class PersonDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val storage = StorageRepository.getInstance()
-
         val closeButton = view.findViewById<Button>(R.id.negative)
         val addEventButton = view.findViewById<Button>(R.id.positive)
 
@@ -50,14 +48,17 @@ class PersonDialog : DialogFragment() {
 
         closeButton.setOnClickListener{ dialog?.dismiss() }
         addEventButton.setOnClickListener{
-            storage.savePerson(
-                firstNameTextView.text.toString(),
-                middleNameTextView.text.toString(),
-                lastNameTextView.text.toString(),
-                phoneTextView.text.toString(),
-                avatarTextView.text.toString()
+            val personModel = PersonModel(
+                firstName = firstNameTextView.text.toString(),
+                middleName = middleNameTextView.text.toString(),
+                lastName = lastNameTextView.text.toString(),
+                phone = phoneTextView.text.toString(),
+                avatar = avatarTextView.text.toString()
             )
-            parentFragmentManager.setFragmentResult(PersonsFragment.PERSON_REQUEST_CODE, Bundle())
+
+            val bundle = Bundle()
+            bundle.putParcelable(PERSON_MODEL, personModel)
+            parentFragmentManager.setFragmentResult(PERSON_REQUEST_CODE, bundle)
             dialog?.dismiss()
         }
     }
@@ -65,5 +66,6 @@ class PersonDialog : DialogFragment() {
 
     companion object {
         const val TAG = "PersonDialog"
+        const val PERSON_MODEL = "PersonModel"
     }
 }

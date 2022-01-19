@@ -1,7 +1,20 @@
-<resources>
-    <string name="app_name">Notifier</string>
-    <string name="navigation_drawer_open">open drawer</string>
-    <string name="navigation_drawer_close">close drawer</string>
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Application strings -->
+    <string name="app_name" tools:ignore="MissingTranslation">Notifier</string>
+    <string name="navigation_drawer_open" tools:ignore="MissingTranslation">open drawer</string>
+    <string name="navigation_drawer_close" tools:ignore="MissingTranslation">close drawer</string>
+
+    <!-- Base strings  -->
     <string name="event_dialog_message">Message</string>
     <string name="add">Add</string>
+
+    <!-- Error messages -->
+    <string name="not_correct_data">Not correct data</string>
+    <string name="data_missing">Data missing</string>
+    <string name="no_element_in_database">No element in database to remove</string>
+    <string name="item_is_deleted">"Item is deleted"</string>
+    <string name="undo">Undo</string>
+
 </resources>

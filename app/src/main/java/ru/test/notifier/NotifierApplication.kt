@@ -1,12 +1,9 @@
 package ru.test.notifier
 
 import android.app.Application
-import android.graphics.BitmapFactory
-import android.util.Log
 import ru.test.notifier.navigation.Router
-import ru.test.notifier.storage.StorageRepository
+import ru.test.notifier.data.db.DataBaseRepository
 import ru.test.notifier.ui.adapters.BitmapCache
-import ru.test.notifier.ui.extensions.toBitmap
 
 class NotifierApplication : Application() {
 
@@ -15,7 +12,7 @@ class NotifierApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        StorageRepository.init(this)
+        DataBaseRepository.init(this)
     }
 
     fun getRouter() = router
@@ -29,3 +26,8 @@ class NotifierApplication : Application() {
         fun getInstance() = instance
     }
 }
+
+
+
+
+

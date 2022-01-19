@@ -11,7 +11,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ru.test.notifier.R
-import ru.test.notifier.storage.StorageRepository
+import ru.test.notifier.data.db.DataBaseRepository
+import ru.test.notifier.domain.model.EventTypeModel
 import java.util.*
 import ru.test.notifier.ui.screens.EventTypesFragment
 
@@ -37,8 +38,6 @@ class EventTypeDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val storage = StorageRepository.getInstance()
-
         val closeButton = view.findViewById<Button>(R.id.negative)
         val addEventButton = view.findViewById<Button>(R.id.positive)
 
@@ -47,14 +46,19 @@ class EventTypeDialog : DialogFragment() {
 
         closeButton.setOnClickListener{ dialog?.dismiss() }
         addEventButton.setOnClickListener{
-            storage.saveEventType(titleTextView.text.toString(), descriptionTextView.text.toString())
-            parentFragmentManager.setFragmentResult(EventTypesFragment.EVENT_REQUEST_CODE, Bundle())
+            val model = EventTypeModel(
+                title = titleTextView.text.toString(),
+                description = descriptionTextView.text.toString()
+            )
+            val bundle = Bundle()
+            bundle.putParcelable(EVENT_TYPE_MODEL, model)
+            parentFragmentManager.setFragmentResult(EventTypesFragment.EVENT_REQUEST_CODE, bundle)
             dialog?.dismiss()
         }
     }
 
-
     companion object {
         const val TAG = "EventTypeDialog"
+        const val EVENT_TYPE_MODEL = "EventTypeModel"
     }
 }

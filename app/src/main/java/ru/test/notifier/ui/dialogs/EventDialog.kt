@@ -9,7 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 
 import ru.test.notifier.R
-import ru.test.notifier.storage.StorageRepository
+import ru.test.notifier.data.db.DataBaseRepository
 
 import android.app.DatePickerDialog.OnDateSetListener
 import java.text.SimpleDateFormat
@@ -18,8 +18,11 @@ import java.util.*
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import ru.test.notifier.model.ListObject
+import ru.test.notifier.domain.ListObject
+import ru.test.notifier.domain.model.EventModel
 import ru.test.notifier.ui.screens.EventsFragment
+import ru.test.notifier.ui.screens.EventsFragment.Companion.EVENT_MODEL
+import ru.test.notifier.ui.screens.EventsFragment.Companion.MAIN_STORE_EVENT_CODE
 
 
 class EventDialog : DialogFragment() {
@@ -43,7 +46,7 @@ class EventDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val storage = StorageRepository.getInstance()
+        val storage = DataBaseRepository.getInstance()
 
         val closeButton = view.findViewById<Button>(R.id.negative)
         val addEventButton = view.findViewById<Button>(R.id.positive)
@@ -53,8 +56,8 @@ class EventDialog : DialogFragment() {
         val eventSpinner = view.findViewById<Spinner>(R.id.event)
         val personSpinner = view.findViewById<Spinner>(R.id.person)
 
-        val eventTypes = storage.getAllEventTypes()?.map{ ListObject(it.id, it.title ?: "")}
-        val users = storage.getAllUsers()?.map{ ListObject(it.id, it.firstName ?: "")}
+        val eventTypes = storage.getAllEventTypes()?.map{ ListObject(it.id, it.title ?: "") }
+        val users = storage.getAllUsers()?.map{ ListObject(it.id, it.firstName ?: "") }
 
         setSpinnerAdapter(eventSpinner, eventTypes)
         setSpinnerAdapter(personSpinner, users)
@@ -79,14 +82,16 @@ class EventDialog : DialogFragment() {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)).show()
             }
-
         }
         addEventButton.setOnClickListener{
-            storage.saveEvent(
-                (personSpinner.selectedItem as? ListObject)?.id,
-                (eventSpinner.selectedItem as? ListObject)?.id,
-                calendar.time)
-            parentFragmentManager.setFragmentResult(EventsFragment.MAIN_REQUEST_CODE, Bundle())
+            val personId = (personSpinner.selectedItem as? ListObject)?.id
+            val eventId = (eventSpinner.selectedItem as? ListObject)?.id
+            if (personId != null && eventId != null){
+                val model = EventModel(personId = personId, eventTypeId = eventId, date = calendar.time.time)
+                val bundle = Bundle()
+                bundle.putParcelable(EVENT_MODEL, model)
+                parentFragmentManager.setFragmentResult(MAIN_STORE_EVENT_CODE, bundle)
+            }
             dialog?.dismiss()
         }
     }

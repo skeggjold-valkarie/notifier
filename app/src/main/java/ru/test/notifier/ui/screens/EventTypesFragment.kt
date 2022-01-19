@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.test.notifier.R
+import ru.test.notifier.domain.model.EventTypeModel
 import ru.test.notifier.presenter.pages.EventTypesPresenter
 import ru.test.notifier.ui.adapters.EventsAdapter
 import ru.test.notifier.ui.dialogs.EventTypeDialog
@@ -18,7 +19,7 @@ import ru.test.notifier.ui.extensions.DialogListener
 class EventTypesFragment: Fragment(), EventTypesPresenter.ContentView {
 
     private var recyclerView: RecyclerView? = null
-    private var adapter: EventsAdapter? = null
+    private var adapter: EventsAdapter<EventTypeModel>? = null
     private var presenter: EventTypesPresenter? = null
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -30,7 +31,7 @@ class EventTypesFragment: Fragment(), EventTypesPresenter.ContentView {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.rv_events)
-        adapter = EventsAdapter(view.context)
+        adapter = EventsAdapter()
         val listener = createDialogListener()
         presenter = EventTypesPresenter(this)
 
@@ -53,7 +54,8 @@ class EventTypesFragment: Fragment(), EventTypesPresenter.ContentView {
         }
     }
 
-    private fun updateList() = presenter?.let{ adapter?.setData(it.getData()) }
+    // TODO: repair function
+    private fun updateList(){} // = presenter?.let{ adapter?.setData(it.getData()) }
 
     companion object{
         const val EVENT_REQUEST_CODE = "event_request_code"
